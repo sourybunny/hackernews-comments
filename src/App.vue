@@ -9,18 +9,23 @@
     </v-toolbar>
 
     <v-content>
-      <HelloWorld/>
+      <app-story-search></app-story-search>
+    </v-content>
+    <v-content>
+      <app-comment-list></app-comment-list>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import StorySearch from './components/story/StorySearch.vue';
+import CommentList from './components/comments/CommentList.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    'app-story-search': StorySearch,
+    'app-comment-list': CommentList
   },
   data () {
     return {
