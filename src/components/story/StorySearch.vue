@@ -4,14 +4,16 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-text-field v-model="storyid"
         name = "id"
-        @keyup.enter = "submit">
+        @keyup.enter = "submit"
+        placeholder ="enter story id"
+        hint = "18879185"
+        single-line>
 
         </v-text-field>
-        <p>{{storyid}}</p>
 
       </v-flex>
       <v-flex xs6 >
-        <v-btn round color = "primary" 
+        <v-btn round outline color = "primary" 
         @click.prevent = "submit" 
         :disabled = "!storyid" 
         >Get Comments</v-btn>
@@ -55,7 +57,8 @@ import {eventHub} from '../../main.js'
                                 // grab root cmnt id and get child comments of each
                                 this.getComments(commentid);
                             }
-                        } else {     // if type == comment       
+                        } else {     // if type == comment   
+                               
                             data.deleted?null:this.comments.push(data);
                             data.kids?this.getChild(data.kids[0]):null;
                         }

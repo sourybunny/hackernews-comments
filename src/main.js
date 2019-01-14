@@ -6,6 +6,7 @@ import App from './App.vue'
 Vue.config.productionTip = false
 
 Vue.use(VueResource);
+Vue.use(EmojiPicker);
 export const eventHub = new Vue()
 
 new Vue({
