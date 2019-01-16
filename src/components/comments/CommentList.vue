@@ -1,6 +1,6 @@
 <template>
       <div>
-    <v-card class="mb-3">
+    <v-card class="mb-3 elevation-0">
           <v-container fluid>
               <v-layout row align-start
                         justify-space-around>
@@ -64,7 +64,9 @@ export default {
             this.getChild(this.comment.kids[0]);
             
         }
-        
+        EventHub.$on('clearArray', ()=> {   
+            this.children = [];
+        });
     },
     methods:{
         getTime(){

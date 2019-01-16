@@ -7,6 +7,7 @@
         @keyup.enter = "submit"
         placeholder ="enter story id"
         hint = "18879185"
+        @change = "emptyArr"
         single-line>
 
         </v-text-field>
@@ -19,12 +20,18 @@
         >Get Comments</v-btn>
       </v-flex>
     </v-layout>
-    <comment-list v-for="comment in comments" :comment = "comment" :count = "count"></comment-list>
-    
+    <v-content>
+        <h2 class="text-xs-center" v-if="storyid"> {{msg}}</h2>
+        <comment-list v-for="comment in comments" :comment = "comment" :count = "count"></comment-list>
+
+    </v-content>
   </v-container>
+
+  
 </template>
 
 <script>
+import {eventHub} from '../../main.js';
 import CommentList from '../../components/comments/CommentList.vue';
   export default {
       name: 'StorySearch',
@@ -32,15 +39,19 @@ import CommentList from '../../components/comments/CommentList.vue';
       return {
         storyid: '',
         comments: [],
-        count:1
+        count:1,
+        msg: ''
       }
     },
     components: {  
     'CommentList': CommentList
     },
     methods: {
+    emptyArr(){
+        this.comments = [];
+        EventHub.$emit('clearArray');
+    },
      submit(){
-        //   console.log("submitted");
           this.getComments(this.storyid);
           console.log("submitted",this.comments);
       },
@@ -54,6 +65,7 @@ import CommentList from '../../components/comments/CommentList.vue';
                     .then(data=>{
                         // if it's a story, get list of all root comment ids 
                         if(data.type == "story"){
+                            this.msg=data.descendants==0?'no comments yet':'';
                             this.comments = [];
                             this.children = [];
                             this.count = 0;
