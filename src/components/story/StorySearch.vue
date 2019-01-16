@@ -21,7 +21,7 @@
       </v-flex>
     </v-layout>
     <v-content>
-        <h2 class="text-xs-center" v-if="storyid"> {{msg}}</h2>
+        <h2 class="text-xs-center"> {{msg}}</h2>
         <comment-list v-for="comment in comments" :comment = "comment" :count = "count"></comment-list>
 
     </v-content>
