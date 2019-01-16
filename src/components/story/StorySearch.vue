@@ -19,23 +19,28 @@
         >Get Comments</v-btn>
       </v-flex>
     </v-layout>
-    
+    <comment-list v-for="comment in comments" :comment = "comment" :count = "count"></comment-list>
     
   </v-container>
 </template>
 
 <script>
-import {eventHub} from '../../main.js'
+import CommentList from '../../components/comments/CommentList.vue';
   export default {
-    data () {
+      name: 'StorySearch',
+      data () {
       return {
         storyid: '',
-        comments: []
+        comments: [],
+        count:1
       }
     },
+    components: {  
+    'CommentList': CommentList
+    },
     methods: {
-      submit(){
-          console.log("submitted");
+     submit(){
+        //   console.log("submitted");
           this.getComments(this.storyid);
           console.log("submitted",this.comments);
       },
@@ -51,39 +56,24 @@ import {eventHub} from '../../main.js'
                         if(data.type == "story"){
                             this.comments = [];
                             this.children = [];
+                            this.count = 0;
                             var comments = data.kids;
                             for(let comment in comments){
                                 let commentid = comments[comment];
-                                // grab root cmnt id and get child comments of each
+                                // grab root cmnt id 
                                 this.getComments(commentid);
                             }
                         } else {     // if type == comment   
-                               
-                            data.deleted?null:this.comments.push(data);
-                            data.kids?this.getChild(data.kids[0]):null;
+                            let commentdata = data;
+                            commentdata.avatar = 'http://i.pravatar.cc/150?u='+this.count;
+                            this.count++;
+                            if(!data.deleted){
+                                this.comments.push(commentdata);
+                                
+                            }
                         }
                     })
-                    
-      },
-      getChild(id){
-          this.$http.get('https://hacker-news.firebaseio.com/v0/item/'+id+'.json')
-          .then(res=>{
-              return res.json();
-          })
-          .then(data=>{
-              data.deleted?null:this.appendChild(data);     
-          })
-      },
-        appendChild(child){
-            let parent = this.comments.filter(comment=>{
-                return comment.id == child.parent;
-            })
-            let i = this.comments.indexOf(parent[0]);
-            this.comments[i].child =[];
-            this.comments[i].child.push(child);
-            eventHub.$emit('rootcomments',this.comments);
-        }
-    
+      }
     }
   }
 </script>

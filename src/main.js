@@ -7,7 +7,6 @@ Vue.config.productionTip = false
 
 Vue.use(VueResource);
 Vue.use(EmojiPicker);
-export const eventHub = new Vue()
 
 new Vue({
   render: h => h(App)
