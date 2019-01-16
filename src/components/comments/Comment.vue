@@ -1,5 +1,6 @@
 <template>
-    <v-card>
+<div v-if="comment" v-show="open">
+    <v-card class="mb-3">
           <v-container fluid>
               <v-layout row align-start
                         justify-space-around>
@@ -33,12 +34,16 @@
               </v-layout>
           </v-container>
       </v-card>
-
+         <template v-if ="comment.child" v-show="open">
+              <comment v-for ="comment in comment.child" class="ml-5"  :comment = "comment"></comment>
+        </template>
+</div>
 </template>
 <script>
 import Reply from './Reply.vue';
 var moment = require('moment');
 export default {
+   name: 'Comment',
     components: {
         'appReply': Reply
     },
@@ -46,10 +51,10 @@ export default {
         return {
             moment:moment,
             show: false,
-            selectedComponent: ''
+            open: true
         }
     },
-    props:['comment','child','index'],
+    props:['comment'],
     methods:{
         getTime(){
             return this.comment.time*1000;

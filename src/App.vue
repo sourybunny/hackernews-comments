@@ -12,7 +12,7 @@
       <app-story-search></app-story-search>
     </v-content>
     <v-content>
-      <app-comment-list></app-comment-list>
+      <comment-list></comment-list>
     </v-content>
   </v-app>
 </template>
@@ -25,7 +25,7 @@ export default {
   name: 'App',
   components: {
     'app-story-search': StorySearch,
-    'app-comment-list': CommentList
+    'comment-list': CommentList
   },
   data () {
     return {

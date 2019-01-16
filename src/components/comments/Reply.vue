@@ -4,7 +4,7 @@
             name="input-7-1"
             box
             auto-grow
-            v-model = "reply" placeholder ="enter reply" key="index">
+            v-model = "reply" placeholder ="enter reply">
 </v-textarea>
 <emoji-picker @emoji="append" :search="search">
       <div
@@ -52,7 +52,6 @@ export default {
             search: ''
         }
     },
-    props: ['index'],
     methods:{
         append(emoji) {
       this.reply += emoji

@@ -79,7 +79,8 @@ import {eventHub} from '../../main.js'
                 return comment.id == child.parent;
             })
             let i = this.comments.indexOf(parent[0]);
-            this.comments[i].child = child;
+            this.comments[i].child =[];
+            this.comments[i].child.push(child);
             eventHub.$emit('rootcomments',this.comments);
         }
     
