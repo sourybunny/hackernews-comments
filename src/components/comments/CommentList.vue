@@ -59,10 +59,11 @@ export default {
     },
     props: ['comment','count'],
     created(){
-
         if(this.comment.kids){
-            this.getChild(this.comment.kids[0]);
-            
+            let childarr  = this.comment.kids;
+            for(let kid in childarr){
+                this.getChild(childarr[kid]);
+            }
         }
         EventHub.$on('clearArray', ()=> {   
             this.children = [];
@@ -78,15 +79,23 @@ export default {
               return res.json();
           })
           .then(data=>{
-              data.deleted?null:this.appendChild(data);
+              data.deleted?null:this.stopPropagation(data);
                    
           })
+        },
+        stopPropagation(child){
+        if(child.parent == this.comment.id){
+            child.kids=null;
+            this.appendChild(child);
+            
+        }    
+        
         },
         appendChild(child){
             let childdata= child;
             childdata.avatar = 'http://i.pravatar.cc/150?u='+this.count;
             this.count++;
-            this.children.push(childdata);    
+            this.children.push(childdata);
         }
         
     }
